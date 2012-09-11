@@ -289,8 +289,10 @@ exports.upload = function(req, res) {
 
       uploadToFS = function(sourcePath) {
         var destFile = options.LOCAL_STORAGE_PATH + fileName;
-        fs.rename(sourcePath, destFile, function(err) {
-          res.json({url: longURL});
+        fs.mkdir(options.LOCAL_STORAGE_PATH, function() {
+            fs.rename(sourcePath, destFile, function(err) {
+                res.json({url: longURL});
+            });
         });
       };
 
