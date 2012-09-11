@@ -1,6 +1,5 @@
 var knox = require("knox"),
 	formidable = require("formidable"),
-	microtime = require("microtime"),
 	easyimage = require("easyimage"),
 	request = require('request'),
 	fs = require('fs'),
@@ -166,6 +165,10 @@ exports.clearfile = function(req, res) {
 	});
 };
 
+function generateUniqueFileName(fileExt) {
+    return Math.random().toString().replace('.','') + "." + fileExt;
+};
+
 /* POST, uploads a file to Amazon S3.
    If a file has been preuploaded, upload that, else
    upload the file that should have been posted with this request */
@@ -207,9 +210,8 @@ exports.upload = function(req, res) {
       }
 
       fileType = file.type;
-      fileExt = fileType.replace("image/", "");
-      // Use microtime to generate a unique file name
-      fileName = microtime.now() + "." + (fileExt === "jpeg" ? "jpg" : fileExt);
+      fileExt = fileType.replace("image/", "").replace("jpeg", "jpg");
+      fileName = generateUniqueFileName(fileExt);
       longURL = (req.app.get("localrun") ? "http://" + req.headers.host : req.app.get("domain")) + "/" + fileName;
 
 
