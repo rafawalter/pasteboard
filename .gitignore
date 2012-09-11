@@ -1,5 +1,7 @@
+build/
 builtAssets/
 node_modules/
+npm-debug.log
 
 auth/*
 !auth/index.js
@@ -11,3 +13,4 @@ public/storage/*
 
 deploy_master
 deploy_dev
+
